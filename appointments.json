@@ -1,0 +1,32 @@
+[
+    {
+        "appointment_id": "A001",
+        "patient_id": "P001",
+        "clinician_id": "C001",
+        "date": "2026-12-15",
+        "time": "09:00",
+        "purpose": "General consultation",
+        "duration": 30,
+        "status": "scheduled"
+    },
+    {
+        "appointment_id": "A002",
+        "patient_id": "P001",
+        "clinician_id": "C001",
+        "date": "2026-10-15",
+        "time": "10:00",
+        "purpose": "Routine check-up",
+        "duration": 30,
+        "status": "completed"
+    },
+    {
+        "appointment_id": "A003",
+        "patient_id": "P001",
+        "clinician_id": "C001",
+        "date": "2026-10-20",
+        "time": "11:00",
+        "purpose": "Follow-up",
+        "duration": 30,
+        "status": "cancelled"
+    }
+]
