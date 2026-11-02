@@ -112,6 +112,26 @@ Run the workflow tests with:
 
 On Windows, `py -m unittest` can be used instead.
 
+The tests cover record validation and search, JSON loading and saving,
+appointment conflicts and rescheduling, status changes, chronological report
+ordering, and the CLI's conflict message. They use temporary JSON files so
+they do not alter the demonstration records.
+
+## Demonstration Walkthrough
+
+1. Run `python main.py`.
+2. Open patient management and view the sample patient, `P001`.
+3. Open clinician management and view the sample clinician, `C001`.
+4. Open reports and select 2026-12-15 to see the scheduled sample appointment.
+5. Try scheduling another appointment for `C001` on 2026-12-15 at 09:15.
+   The system should reject it because it overlaps the existing 09:00
+   appointment.
+6. Try 09:30 instead to demonstrate that appointments can be back-to-back.
+7. View the daily summaries for 2026-10-15 and 2026-10-20 to see completed
+   and cancelled appointment statuses.
+
+Changes made during the walkthrough are saved to the JSON files.
+
 ## Project Management and Version Control
 
 Use an approved project board (for example, Jira or Trello) to track work.
