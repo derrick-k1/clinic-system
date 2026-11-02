@@ -187,6 +187,31 @@ class ClinicWorkflowTests(unittest.TestCase):
         appointment = self.schedule("10:30", "Next consultation")
         self.assertEqual(appointment.appointment_time.strftime("%H:%M"), "10:30")
 
+    def test_appointment_queries_return_chronological_order(self):
+        later = self.schedule("11:00", "Later consultation")
+        earlier = self.schedule("09:00", "Earlier consultation")
+
+        patient_appointments = self.manager.get_patient_appointments(
+            self.patient.person_id
+        )
+        clinician_appointments = self.manager.get_clinician_appointments(
+            self.clinician.person_id
+        )
+        date_appointments = self.manager.get_appointments_by_date(
+            self.appointment_date
+        )
+        report_appointments = self.manager.generate_daily_report(
+            self.appointment_date
+        )["appointments"]
+
+        for appointments in (
+            patient_appointments,
+            clinician_appointments,
+            date_appointments,
+            report_appointments
+        ):
+            self.assertEqual(appointments, [earlier, later])
+
     def test_cli_displays_conflict_error_without_adding_appointment(self):
         self.schedule("10:00")
         application = ClinicCLI()

@@ -172,28 +172,35 @@ class AppointmentManager:
             appointment.restore_status(old_status)
             raise
 
+    @staticmethod
+    def _sort_appointments(appointments):
+        return sorted(
+            appointments,
+            key=lambda appointment: appointment.start_datetime
+        )
+
     def get_patient_appointments(self, patient_id):
-        return [
+        return self._sort_appointments(
             appointment
             for appointment in self.appointments.values()
             if appointment.patient_id == patient_id
-        ]
+        )
 
     def get_clinician_appointments(self, clinician_id):
-        return [
+        return self._sort_appointments(
             appointment
             for appointment in self.appointments.values()
             if appointment.clinician_id == clinician_id
-        ]
+        )
 
     def get_appointments_by_date(self, selected_date):
         selected_date = Appointment.validate_date(selected_date)
 
-        return [
+        return self._sort_appointments(
             appointment
             for appointment in self.appointments.values()
             if appointment.appointment_date == selected_date
-        ]
+        )
 
     def search_appointments(self, search_term):
         search_term = search_term.lower()
