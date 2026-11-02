@@ -73,10 +73,14 @@ class JSONStorage:
         path = self.files[record_type]
         temporary_path = path.with_name(path.name + ".tmp")
 
-        with open(temporary_path, "w", encoding="utf-8") as file:
-            json.dump(records, file, indent=4)
+        try:
+            with open(temporary_path, "w", encoding="utf-8") as file:
+                json.dump(records, file, indent=4)
 
-        temporary_path.replace(path)
+            temporary_path.replace(path)
+        finally:
+            if temporary_path.exists():
+                temporary_path.unlink()
 
     def load_all(self):
         return {

@@ -141,6 +141,20 @@ class ClinicWorkflowTests(unittest.TestCase):
 
         self.assertEqual(storage.load("patients"), [])
 
+    def test_failed_json_save_preserves_original_and_removes_temporary_file(self):
+        storage = JSONStorage(self.temporary_directory.name)
+        patient_file = storage.files["patients"]
+        patient_file.write_text('[{"patient_id": "P001"}]', encoding="utf-8")
+
+        with self.assertRaises(TypeError):
+            storage.save("patients", [{"unsupported": object()}])
+
+        self.assertEqual(
+            patient_file.read_text(encoding="utf-8"),
+            '[{"patient_id": "P001"}]'
+        )
+        self.assertFalse(patient_file.with_name("patients.json.tmp").exists())
+
     def test_invalid_appointment_references_are_rejected_on_load(self):
         data_directory = self.temporary_directory.name
         storage = JSONStorage(data_directory)
